@@ -49,24 +49,6 @@ namespace Froggi.AudioKit
             
             if (audioManager != null && !isRegistered)
             {
-                
-                bool alreadyInArray = false;
-                if (audioManager.registeredZones != null)
-                {
-                    for (int i = 0; i < audioManager.registeredZones.Length; i++)
-                    {
-                        if (audioManager.registeredZones[i] == this)
-                        {
-                            alreadyInArray = true;
-                            break;
-                        }
-                    }
-                }
-                
-                if (!alreadyInArray)
-                {
-                    audioManager.RegisterZone(this);
-                }
                 isRegistered = true;
             }
 
@@ -170,37 +152,6 @@ namespace Froggi.AudioKit
                             proxyFadeStates[i] = 0;
                         }
                         break;
-                }
-            }
-        }
-
-        public void OnDestroy()
-        {
-            if (audioManager != null && isRegistered)
-            {
-                audioManager.UnregisterZone(this);
-                isRegistered = false;
-            }
-        }
-
-        public void SetAudioManager(AudioManager manager)
-        {
-            if (audioManager != manager)
-            {
-            
-                if (audioManager != null && isRegistered)
-                {
-                    audioManager.UnregisterZone(this);
-                    isRegistered = false;
-                }
-                
-                audioManager = manager;
-                
-                
-                if (audioManager != null)
-                {
-                    audioManager.RegisterZone(this);
-                    isRegistered = true;
                 }
             }
         }
