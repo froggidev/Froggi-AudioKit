@@ -348,6 +348,25 @@ namespace Froggi.AudioKit.Editors
             Gizmos.color = Color.white;
             Gizmos.DrawIcon(position, "Assets/FroggiAudioKit/Assets/Gizmos/AudioProxy.png", true, Color.white);
         }
+        [DrawGizmo(GizmoType.Selected)]
+        static void DrawSelectedGizmoForAudioProxy(AudioProxy proxy, GizmoType gizmoType)
+        {
+            if (proxy == null) return;
+            Vector3 position = proxy.transform.position;
+
+            Gizmos.color = Color.blue;
+            Gizmos.DrawWireSphere(position,proxy.minDistance);
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(position,proxy.maxDistance);
+            
+
+            if (proxy.useSpatializeDistance)
+            {
+                Gizmos.color = Color.yellow;
+                Gizmos.DrawWireSphere(position,proxy.spatializeDistance);
+            }
+            Gizmos.color = Color.white;
+        }
 
         public static class AudioUtils
         {
