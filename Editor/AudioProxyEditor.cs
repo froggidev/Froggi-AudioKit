@@ -167,9 +167,15 @@ namespace Froggi.AudioKit.Editors
         {
             EditorGUILayout.PropertyField(serializedObject.FindProperty("delay"), new GUIContent("Delay", "Delay before audio starts (seconds)"));
 
+            SerializedProperty _zoneControlsFade = serializedObject.FindProperty(nameof(AudioProxy.zoneControlsFade));
+            EditorGUILayout.PropertyField(_zoneControlsFade, new GUIContent("Zone Controls Fade Times", "Determines if the Zone sets the fade times for this proxy"));
+                
+            EditorGUI.BeginDisabledGroup(_zoneControlsFade.boolValue);
             EditorGUILayout.PropertyField(serializedObject.FindProperty("fadeInTime"), new GUIContent("Fade In Time", "Time to fade in from silence (seconds)"));
+            //EditorGUILayout.PropertyField(serializedObject.FindProperty("fadeOutTime"), new GUIContent("Fade Out Time", "Time to fade out to silence (seconds)"));
+            EditorGUI.EndDisabledGroup();
+            
 
-            EditorGUILayout.PropertyField(serializedObject.FindProperty("fadeOutTime"), new GUIContent("Fade Out Time", "Time to fade out to silence (seconds)"));
         }
 
         private void Draw3DAudioSettings()
@@ -181,6 +187,12 @@ namespace Froggi.AudioKit.Editors
                 EditorGUILayout.PropertyField(serializedObject.FindProperty("minDistance"), new GUIContent("Min Distance", "Distance where volume is max"));
                 EditorGUILayout.PropertyField(serializedObject.FindProperty("maxDistance"), new GUIContent("Max Distance", "Distance where volume reaches zero"));
                 EditorGUILayout.PropertyField(serializedObject.FindProperty("rolloffMode"), new GUIContent("Rolloff Mode", "How volume decreases with distance"));
+                SerializedProperty _useSpatializeDistance = serializedObject.FindProperty(nameof(AudioProxy.useSpatializeDistance));
+                EditorGUILayout.PropertyField(_useSpatializeDistance, new GUIContent("Use Spatialize Distance", "Turns Spatialize Distance on or off"));
+                
+                EditorGUI.BeginDisabledGroup(!_useSpatializeDistance.boolValue);
+                EditorGUILayout.PropertyField(serializedObject.FindProperty(nameof(AudioProxy.spatializeDistance)), new GUIContent("Spatialize Distance", "Determines when the source is Specialized between 2D and 3D audio"));
+                EditorGUI.EndDisabledGroup();
             }
         }
 
@@ -322,6 +334,8 @@ namespace Froggi.AudioKit.Editors
 
             string labelText = string.IsNullOrEmpty(proxy.audioKey) ? "AudioProxy" : proxy.audioKey;
             Handles.Label(position + Vector3.up * 1.5f, labelText, EditorStyles.boldLabel);
+            
+            
         }
 
         [DrawGizmo(GizmoType.NonSelected | GizmoType.Selected)]
