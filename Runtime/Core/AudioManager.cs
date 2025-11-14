@@ -424,68 +424,6 @@ namespace Froggi.AudioKit
             return baseSize + moduleRequirement;
         }
 
-        public void RegisterZone(AudioZone zone)
-        {
-            if (zone == null) return;
-            
-            if (registeredZones == null)
-            {
-                registeredZones = new AudioZone[1];
-                registeredZones[0] = zone;
-                return;
-            }
-
-            
-            for (int i = 0; i < registeredZones.Length; i++)
-            {
-                if (registeredZones[i] == zone) return;
-            }
-
-            
-            AudioZone[] newArray = new AudioZone[registeredZones.Length + 1];
-            for (int i = 0; i < registeredZones.Length; i++)
-            {
-                newArray[i] = registeredZones[i];
-            }
-            newArray[registeredZones.Length] = zone;
-            registeredZones = newArray;
-        }
-
-        public void UnregisterZone(AudioZone zone)
-        {
-            if (zone == null || registeredZones == null) return;
-
-            int removeIndex = -1;
-            for (int i = 0; i < registeredZones.Length; i++)
-            {
-                if (registeredZones[i] == zone)
-                {
-                    removeIndex = i;
-                    break;
-                }
-            }
-
-            if (removeIndex == -1) return;
-
-            if (registeredZones.Length == 1)
-            {
-                registeredZones = new AudioZone[0];
-                return;
-            }
-
-            AudioZone[] newArray = new AudioZone[registeredZones.Length - 1];
-            int newIndex = 0;
-            for (int i = 0; i < registeredZones.Length; i++)
-            {
-                if (i != removeIndex)
-                {
-                    newArray[newIndex] = registeredZones[i];
-                    newIndex++;
-                }
-            }
-            registeredZones = newArray;
-        }
-
         public void OnPlayerEnteredZone(VRCPlayerApi player, AudioZone zone)
         {
             if (zone == null) return;
@@ -521,7 +459,7 @@ namespace Froggi.AudioKit
             if (zone == null) return;
             
             string playerName = player != null ? (player.isLocal ? "LocalPlayer" : player.displayName) : "Unknown";
-            Debug.Log($"[AudioManager] Player '{playerName}' exited zone '{zone.name}'");
+            //Debug.Log($"[AudioManager] Player '{playerName}' exited zone '{zone.name}'");
             
             // Remove zone from tracking for local player
             if (player != null && player.isLocal && playerCurrentZones != null)
@@ -537,7 +475,7 @@ namespace Froggi.AudioKit
                         }
                         playerCurrentZones[playerCurrentZoneCount - 1] = null;
                         playerCurrentZoneCount--;
-                        Debug.Log($"[AudioManager] Now tracking {playerCurrentZoneCount} zone(s) for local player");
+                        //Debug.Log($"[AudioManager] Now tracking {playerCurrentZoneCount} zone(s) for local player");
                         break;
                     }
                 }

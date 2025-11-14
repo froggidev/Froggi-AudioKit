@@ -306,30 +306,6 @@ namespace Froggi.AudioKit.Editors
             return false;
         }
 
-        private void RegisterZoneWithManager()
-        {
-            if (zone.audioManager == null) return;
-
-            var registeredZones = zone.audioManager.registeredZones;
-            if (registeredZones == null)
-            {
-                zone.audioManager.registeredZones = new AudioZone[] { zone };
-            }
-            else
-            {
-                var newArray = new AudioZone[registeredZones.Length + 1];
-                for (int i = 0; i < registeredZones.Length; i++)
-                {
-                    newArray[i] = registeredZones[i];
-                }
-                newArray[registeredZones.Length] = zone;
-                zone.audioManager.registeredZones = newArray;
-            }
-            
-            EditorUtility.SetDirty(zone.audioManager);
-            Debug.Log($"Registered {zone.name} with {zone.audioManager.name}");
-        }
-
         private void SetupAsTrigger()
         {
             Collider existingCollider = zone.GetComponent<Collider>();
@@ -386,14 +362,6 @@ namespace Froggi.AudioKit.Editors
                 if (GUILayout.Button("Setup as Trigger"))
                 {
                     SetupAsTrigger();
-                }
-
-                if (zone.audioManager != null && !IsZoneRegistered())
-                {
-                    if (GUILayout.Button("Register with Manager"))
-                    {
-                        RegisterZoneWithManager();
-                    }
                 }
             }
         }
