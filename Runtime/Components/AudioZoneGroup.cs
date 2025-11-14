@@ -68,8 +68,7 @@ namespace Froggi.AudioKit
                 {
                     if (proxy != null)
                     {
-                        proxy.fadeInTime = fadeInDuration;
-                        proxy.fadeOutTime = fadeOutDuration;
+                        proxy._SetFadeTimes(fadeInDuration,fadeOutDuration);
                     }
                 }
             }
