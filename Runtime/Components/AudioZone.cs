@@ -43,6 +43,8 @@ namespace Froggi.AudioKit
         // Zone Group Support
         private UdonSharpBehaviour parentGroup;
         private bool isGroupMember = false;
+        
+        public Collider zoneCollider;
 
         void Start()
         {
@@ -50,6 +52,10 @@ namespace Froggi.AudioKit
             if (audioManager != null && !isRegistered)
             {
                 isRegistered = true;
+            }
+            else
+            {
+                Debug.LogError("[AudioKit] [AudioZone] No Manager Bound!!");
             }
 
             if (audioProxies != null)
@@ -64,8 +70,7 @@ namespace Froggi.AudioKit
                 {
                     if (proxy != null)
                     {
-                        proxy.fadeInTime = fadeInDuration;
-                        proxy.fadeOutTime = fadeOutDuration;
+                        proxy._SetFadeTimes(fadeInDuration,fadeOutDuration);
                     }
                 }
             }
@@ -117,6 +122,17 @@ namespace Froggi.AudioKit
                 }
             }
         UpdateProxyFadeStates();
+        }
+
+        public void _EnableZone()
+        {
+            if (Utilities.IsValid(zoneCollider)) zoneCollider.enabled = true;
+        }
+
+        public void _DisableZone()
+        {
+            if (Utilities.IsValid(zoneCollider)) zoneCollider.enabled = false;
+            OnPlayerTriggerExit(Networking.LocalPlayer);
         }
 
         private void UpdateProxyFadeStates()
@@ -335,8 +351,7 @@ namespace Froggi.AudioKit
                 {
                     if (proxy != null)
                     {
-                        proxy.fadeInTime = fadeIn;
-                        proxy.fadeOutTime = fadeOut;
+                        proxy._SetFadeTimes(fadeInDuration,fadeOutDuration);
                     }
                 }
             }
