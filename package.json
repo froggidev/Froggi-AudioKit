@@ -1,7 +1,7 @@
 {
   "name": "froggi.audiokit",
   "displayName": "Froggi AudioKit",
-  "version": "1.0.0",
+  "version": "1.2.2",
   "unity": "2022.3",
   "description": "A collection of Audio Tools for VRChat",
   "author": {
