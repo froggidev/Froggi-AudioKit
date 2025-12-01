@@ -44,6 +44,8 @@ namespace Froggi.AudioKit
 
         public bool useSpatializeDistance = false;
         public float spatializeDistance = 1f;
+        public bool swapSpatialize = false;
+        public bool lerp2d3d;
 
         // --- NEW FADE MODEL ---
         private bool _isLooping = false;
@@ -312,7 +314,25 @@ namespace Froggi.AudioKit
         {
             if (!useSpatializeDistance) return;
             float _playerDistance = Vector3.Distance(Networking.LocalPlayer.GetPosition(),transform.position);
-            currentSource.spatialize = !(_playerDistance <= spatializeDistance);
+            currentSource.spatialize = swapSpatialize ? !(_playerDistance <= spatializeDistance) : currentSource.spatialize;
+
+            if (lerp2d3d)
+            {
+                currentSource.spatialBlend = Remap(Mathf.Clamp(_playerDistance,spatializeDistance,maxDistance),spatializeDistance,maxDistance,0,1);
+            }
+        }
+        
+        public static float Remap(float iValue, float iMin, float iMax, float oMin, float oMax)
+        {
+            return Mathf.Lerp(
+                oMin,
+                oMax,
+                Mathf.InverseLerp(
+                    iMin,
+                    iMax,
+                    iValue
+                )
+            );
         }
 
         #endregion

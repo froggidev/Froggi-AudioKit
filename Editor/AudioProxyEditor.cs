@@ -182,18 +182,19 @@ namespace Froggi.AudioKit.Editors
         {
             EditorGUILayout.PropertyField(serializedObject.FindProperty("spatialBlend"), new GUIContent("Spatial Blend", "0 = 2D, 1 = 3D"));
 
-            if (proxy.spatialBlend > 0)
-            {
-                EditorGUILayout.PropertyField(serializedObject.FindProperty("minDistance"), new GUIContent("Min Distance", "Distance where volume is max"));
-                EditorGUILayout.PropertyField(serializedObject.FindProperty("maxDistance"), new GUIContent("Max Distance", "Distance where volume reaches zero"));
-                EditorGUILayout.PropertyField(serializedObject.FindProperty("rolloffMode"), new GUIContent("Rolloff Mode", "How volume decreases with distance"));
-                SerializedProperty _useSpatializeDistance = serializedObject.FindProperty(nameof(AudioProxy.useSpatializeDistance));
-                EditorGUILayout.PropertyField(_useSpatializeDistance, new GUIContent("Use Spatialize Distance", "Turns Spatialize Distance on or off"));
-                
-                EditorGUI.BeginDisabledGroup(!_useSpatializeDistance.boolValue);
-                EditorGUILayout.PropertyField(serializedObject.FindProperty(nameof(AudioProxy.spatializeDistance)), new GUIContent("Spatialize Distance", "Determines when the source is Specialized between 2D and 3D audio"));
-                EditorGUI.EndDisabledGroup();
-            }
+            EditorGUILayout.PropertyField(serializedObject.FindProperty("minDistance"), new GUIContent("Min Distance", "Distance where volume is max"));
+            EditorGUILayout.PropertyField(serializedObject.FindProperty("maxDistance"), new GUIContent("Max Distance", "Distance where volume reaches zero"));
+            EditorGUILayout.PropertyField(serializedObject.FindProperty("rolloffMode"), new GUIContent("Rolloff Mode", "How volume decreases with distance"));
+            SerializedProperty _useSpatializeDistance = serializedObject.FindProperty(nameof(AudioProxy.useSpatializeDistance));
+            EditorGUILayout.PropertyField(_useSpatializeDistance, new GUIContent("Use Spatialize Distance", "Turns Spatialize Distance on or off"));
+            EditorGUILayout.PropertyField(serializedObject.FindProperty(nameof(AudioProxy.lerp2d3d)), new GUIContent("Lerp spatialBlend", "Lerp spatialBlend based on player distance between Max Distance and Spatialize Distance"));
+            EditorGUILayout.PropertyField(serializedObject.FindProperty(nameof(AudioProxy.swapSpatialize)), new GUIContent("swapSpatialize", ""));
+
+            
+            
+            EditorGUI.BeginDisabledGroup(!_useSpatializeDistance.boolValue);
+            EditorGUILayout.PropertyField(serializedObject.FindProperty(nameof(AudioProxy.spatializeDistance)), new GUIContent("Spatialize Distance", "Determines when the source is Specialized between 2D and 3D audio"));
+            EditorGUI.EndDisabledGroup();
         }
 
         private void DrawReferences()
